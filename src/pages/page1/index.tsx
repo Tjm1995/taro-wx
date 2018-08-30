@@ -1,6 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import {View, Text, Image, Label} from '@tarojs/components'
 import './index.less'
+import * as React from "react";
+import img1 from '../../asset/images/0db9b112632762d05f180bfaacec08fa513dc62c.jpg'
 
 export default class Index extends Component {
 
@@ -12,14 +14,14 @@ export default class Index extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '首页',
+    navigationBarTitleText: '首页'
   }
 
   componentWillMount () {
+    console.log(111111111111111111,window);
   }
 
-  componentDidMount () {
-  }
+  componentDidMount () { }
 
   componentWillUnmount () { }
 
@@ -27,23 +29,13 @@ export default class Index extends Component {
 
   componentDidHide () { }
 
-  getInfo = () => {
-    console.log(111111111)
-    Taro.navigateTo({
-      url: '../page1/index'
-    })
-    Taro.hideLoading()
-  }
-
   render () {
     return (
       <div className='index'>
-        <Button
-          className="t1"
-          onClick={this.getInfo}
-        >
-          page1
-        </Button>
+        <div>
+          <Label className="iconfont icon-shiliangzhinengduixiang1"></Label>
+          <Image className="image" src={img1}/>
+        </div>
       </div>
     )
   }
