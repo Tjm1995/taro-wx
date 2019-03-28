@@ -1,9 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.less'
-import geren from '../../asset/images/svg/geren.svg'
-import dianzan from '../../asset/images/svg/dianzan.svg'
-import jilu from '../../asset/images/svg/jilu.svg'
 const app = getApp();
 
 export default class Index extends Component {
@@ -46,11 +43,11 @@ export default class Index extends Component {
     //     console.log(222222,e)
     //   }
     // })
-    wx.login({
-      success:(e)=>{
-        console.log(222222,e)
-      }
-    })
+    // wx.login({
+    //   success:(e)=>{
+    //     console.log(222222,e)
+    //   }
+    // })
     wx.getSystemInfo({
       success: function (z) {
         console.warn(11111111, z);
@@ -100,12 +97,10 @@ export default class Index extends Component {
     wx.chooseImage({
       success: (e) => {
         console.log(e.tempFilePaths);
-        // wx.saveImageToPhotosAlbum(e);
-        const photoList = [...this.state.photoList,...e.tempFilePaths];
-        wx.setStorageSync('photoList', photoList);
+        wx.saveImageToPhotosAlbum(e);
         this.setState({
-          photoList,
-        });
+          photoList: [...this.state.photoList,...e.tempFilePaths]
+        })
       }
     })
   }
@@ -139,68 +134,34 @@ export default class Index extends Component {
     const { photoList,userInfo, } = this.state;
     return (
       <div className='index'>
-        <div className="head">
-          <div className="image-box">
-            <div>
-              <div>
-                <p className="name"></p>
-                <a className="user-type">游客</a>
-              </div>
-              <p className="fws">分享者</p>
-            </div>
-          </div>
-          <div className="money-box">
-            <div>
-              <p>总数</p>
-              <p>2</p>
-            </div>
-            <div>
-              <p>已上传</p>
-              <p>2</p>
-            </div>
-            <div>
-              <p>被点赞</p>
-              <p>0</p>
-            </div>
-          </div>
-        </div>
-        <div className="entry">
-          <div>
-            <p>搜索</p>
-            <input name="keyword" placeholder="请输入" />
-          </div>
-          <a>确定</a>
-        </div>
-        <div className="menu">
-          <View
-            onClick={this.getInfo}
-          >
-            <image src={geren}></image>
-            <p>个人上传</p>
-          </View>
-          <View>
-            <image src={dianzan}></image>
-            <p>我的喜好</p>
-          </View>
-          <View>
-            <image src={jilu}></image>
-            <p>分类1</p>
-          </View>
-          <View>
-            <image src={jilu}></image>
-            <p>分类2</p>
-          </View>
-          <View>
-            <image src={jilu}></image>
-            <p>分类3</p>
-          </View>
-        </div>
+        <Button
+          className="t1"
+          onClick={this.getInfo}
+        >
+          咩咩子
+        </Button>
         <Button
           onClick={this.upload}
-          className="vip-btn"
         >
           上传
         </Button>
+        <view class="userinfo">
+          {
+            userInfo ?
+              <block>
+                <image class="userinfo-avatar" src={userInfo.avatarUrl} mode="cover"></image>
+                <text class="userinfo-nickname">{userInfo.nickName}</text>
+              </block> :
+              <Button open-type="getUserInfo" onClick={this.getUserInfo}> 获取头像昵称 </Button>
+          }
+        </view>
+        {
+          photoList.map((z) => (
+            <Image mode="aspectFit" src={z} />
+          ))
+        }
+        <Button onClick={this.startRecord}> 识别二维码 </Button>
+        <Button onClick={this.stopRecord}> 结束 </Button>
       </div>
     )
   }
