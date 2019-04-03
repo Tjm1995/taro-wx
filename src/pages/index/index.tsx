@@ -4,6 +4,7 @@ import './index.less'
 import geren from '../../asset/images/svg/geren.svg'
 import dianzan from '../../asset/images/svg/dianzan.svg'
 import jilu from '../../asset/images/svg/jilu.svg'
+import { wxRequestFn, } from '../common/common.js'
 const app = getApp();
 
 export default class Index extends Component {
@@ -82,6 +83,22 @@ export default class Index extends Component {
         }
       })
     }
+
+    wxRequestFn('http://88c13f5a.ngrok.io/');
+    wxRequestFn({
+      method: 'get',
+      url: 'http://88c13f5a.ngrok.io/',
+      data: null
+    }, res => {
+      if (res) {
+        console.warn(res);
+        wx.hideLoading();
+        wx.showToast({
+          title: '请求成功',
+          icon: 'none'
+        });
+      }
+    })
   }
 
   componentWillUnmount () { }
