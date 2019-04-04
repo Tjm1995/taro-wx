@@ -47,44 +47,17 @@ export default class Index extends Component {
     //     console.log(222222,e)
     //   }
     // })
-    wx.login({
-      success:(e)=>{
-        console.log(222222,e)
-      }
-    })
-    wx.getSystemInfo({
-      success: function (z) {
-        console.warn(11111111, z);
-      }
-    })
-    if (app.globalData.userInfo) {
-      this.setState({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.state.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setState({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setState({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
+    // wx.login({
+    //   success:(e)=>{
+    //     console.log(222222,e)
+    //   }
+    // })
+    // wx.getSystemInfo({
+    //   success: function (z) {
+    //     console.warn(11111111, z);
+    //   }
+    // })
 
-    wxRequestFn('http://88c13f5a.ngrok.io/');
     wxRequestFn({
       method: 'get',
       url: 'http://88c13f5a.ngrok.io/',
@@ -126,16 +99,13 @@ export default class Index extends Component {
       }
     })
   }
-  getUserInfo= () => {
-    wx.getUserInfo({
-      success: res => {
-        app.globalData.userInfo = res.userInfo;
-        this.setState({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    })
+  getUserInfo = (res) => {
+    console.log(111, res);
+    // app.globalData.userInfo = res.userInfo;
+    // this.setState({
+    //   userInfo: res.userInfo,
+    //   hasUserInfo: true
+    // })
   }
   startRecord= () => {
     wx.scanCode({
@@ -153,7 +123,7 @@ export default class Index extends Component {
   }
 
   render () {
-    const { photoList,userInfo, } = this.state;
+    const { photoList, userInfo, } = this.state;
     return (
       <div className='index'>
         <div className="head">
@@ -212,6 +182,7 @@ export default class Index extends Component {
             <p>分类3</p>
           </View>
         </div>
+        <Button open-type="getUserInfo" bindgetuserinfo={this.getUserInfo}>获取授权</Button>
         <Button
           onClick={this.upload}
           className="vip-btn"
